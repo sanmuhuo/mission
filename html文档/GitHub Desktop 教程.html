@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Desktop 完整教程 - Windows 版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: #1a1a2e;
+            color: #e0e0e0;
+            line-height: 1.8;
+        }
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #fff;
+            font-size: 2.4em;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #64ffda;
+            margin-bottom: 50px;
+            font-size: 1.1em;
+        }
+
+        .section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 35px;
+            margin-bottom: 35px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .section h2 {
+            color: #64ffda;
+            font-size: 1.5em;
+            margin-bottom: 25px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #64ffda;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* ===== 步骤卡片 ===== */
+        .step-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 18px 0;
+            transition: all 0.2s;
+        }
+        .step-card:hover {
+            border-color: rgba(100,255,218,0.3);
+        }
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 10px;
+        }
+        .step-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #64ffda, #00bfa5);
+            color: #1a1a2e;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 0.95em;
+        }
+        .step-header strong {
+            font-size: 1.05em;
+            color: #fff;
+        }
+        .step-desc {
+            padding-left: 46px;
+        }
+        .step-desc p {
+            margin: 6px 0;
+            color: #bbb;
+        }
+        .step-desc code {
+            background: rgba(0,0,0,0.3);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: Consolas, monospace;
+            color: #ff79c6;
+        }
+        .step-desc .cmd {
+            display: block;
+            background: rgba(0,0,0,0.4);
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-family: Consolas, monospace;
+            color: #f8f8f2;
+            margin: 10px 0;
+            border-left: 3px solid #64ffda;
+        }
+
+        /* ===== 截图模拟框 ===== */
+        .screen {
+            background: linear-gradient(145deg, #1e1e3a, #252545);
+            border: 1px solid #333;
+            border-radius: 14px;
+            margin: 20px 0 25px 0;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+        .screen-titlebar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            background: #2a2a4a;
+            border-bottom: 1px solid #333;
+        }
+        .screen-titlebar .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .screen-titlebar .dot.red { background: #ff5f57; }
+        .screen-titlebar .dot.yellow { background: #ffbd2e; }
+        .screen-titlebar .dot.green { background: #28c840; }
+        .screen-titlebar .title-text {
+            color: #888;
+            font-size: 0.85em;
+            margin-left: 8px;
+        }
+        .screen-body {
+            padding: 20px;
+            min-height: 160px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .screen-body .big-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        .screen-body .label {
+            color: #aaa;
+            font-size: 0.9em;
+        }
+        .screen-body .highlight-box {
+            background: rgba(100,255,218,0.1);
+            border: 2px dashed #64ffda;
+            border-radius: 8px;
+            padding: 12px 24px;
+            color: #64ffda;
+            font-weight: bold;
+            margin: 8px 0;
+        }
+
+        /* ===== 提示框 ===== */
+        .tip {
+            background: linear-gradient(135deg, rgba(100,255,218,0.08), rgba(100,255,218,0.03));
+            border-left: 4px solid #64ffda;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .tip::before {
+            content: "💡 提示：";
+            font-weight: bold;
+            color: #64ffda;
+        }
+        .warning {
+            background: linear-gradient(135deg, rgba(255,193,7,0.08), rgba(255,193,7,0.03));
+            border-left: 4px solid #ffc107;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .warning::before {
+            content: "⚠️ 注意：";
+            font-weight: bold;
+            color: #ffc107;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 18px 0;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        th {
+            background: rgba(100,255,218,0.08);
+            color: #64ffda;
+        }
+        tr:hover td { background: rgba(255,255,255,0.03); }
+
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 15px 0;
+        }
+        .btn-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        .btn-tag.primary {
+            background: #2ea44f;
+            color: #fff;
+        }
+        .btn-tag.secondary {
+            background: rgba(255,255,255,0.1);
+            color: #ccc;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .btn-tag.highlight {
+            background: #d93f0b;
+            color: #fff;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            color: #666;
+        }
+        .footer a {
+            color: #64ffda;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- ==================== 标题 ==================== -->
+    <h1>💻 GitHub Desktop 图文教程</h1>
+    <p class="subtitle">Windows 版 · 无需敲命令，鼠标点一点就能管理仓库</p>
+
+    <!-- ==================== 界面预览 ==================== -->
+    <div class="section">
+        <h2>🔍 GitHub Desktop 界面总览</h2>
+        <div class="screen">
+            <div class="screen-titlebar">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <span class="title-text">GitHub Desktop</span>
+            </div>
+            <div class="screen-body" style="padding:30px; align-items:stretch; text-align:left;">
+                <div style="display:flex; gap:20px; flex-wrap:wrap;">
+                    <div style="flex:0 0 200px; background:rgba(255,255,255,0.05); border-radius:8px; padding:15px;">
+                        <div style="color:#64ffda; font-size:0.85em; margin-bottom:10px;">⬅ 左侧栏</div>
+                        <div style="background:rgba(255,255,255,0.05); padding:8px; border-radius:4px; margin:4px 0;">📂 当前仓库列表</div>
+                        <div style="background:rgba(255,255,255,0.05); padding:8px; border-radius:4px; margin:4px 0;">➕ 添加仓库按钮</div>
+                        <div style="background:rgba(255,255,255,0.05); padding:8px; border-radius:4px; margin:4px 0;">⚙️ 设置</div>
+                    </div>
+                    <div style="flex:1; min-width:250px;">
+                        <div style="color:#64ffda; font-size:0.85em; margin-bottom:10px;">➡ 主界面</div>
+                        <div style="display:flex; gap:8px; margin-bottom:12px;">
+                            <span style="background:#2ea44f; color:#fff; padding:4px 14px; border-radius:20px; font-size:0.85em;">Changes 更改</span>
+                            <span style="background:rgba(255,255,255,0.1); color:#aaa; padding:4px 14px; border-radius:20px; font-size:0.85em;">History 历史</span>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.05); border-radius:6px; padding:15px;">
+                            <div style="color:#888; font-size:0.85em;">📄 修改的文件列表（显示在这里）</div>
+                        </div>
+                        <div style="margin-top:12px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+                            <div style="flex:1; background:rgba(255,255,255,0.05); border-radius:6px; padding:10px; color:#bbb; min-width:150px;">
+                                📝 输入提交说明...
+                            </div>
+                            <span style="background:#2ea44f; color:#fff; padding:10px 24px; border-radius:6px; font-weight:bold;">
+                                Commit 提交
+                            </span>
+                        </div>
+                        <div style="margin-top:12px; padding:8px; background:rgba(45,136,255,0.15); border-radius:6px; text-align:center; color:#74b9ff;">
+                            🔼 Push origin 推送
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tip">
+            整个应用分为三块：<strong>左侧仓库列表</strong>、<strong>中间代码区</strong>、<strong>底部提交/推送按钮</strong>。很直观。
+        </div>
+    </div>
+
+    <!-- ==================== 第一步：登录 ==================== -->
+    <div class="section">
+        <h2>1️⃣ 登录 GitHub 账号</h2>
+
+        <div class="step-card">
+            <div class="step-header">
+                <span class="step-num">1</span>
+                <strong>双击桌面上的 GitHub Desktop 图标打开</strong>
+            </div>
+        </div>
+
+        <div class="screen">
+            <div class="screen-titlebar">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <span class="title-text">首次启动界面</span>
+            </div>
+            <div class="screen-body">
+                <div class="big-icon">🔑</div>
+                <div class="label">欢迎使用 GitHub Desktop</div>
+                <div style="margin:15px 0; display:flex; gap:12px; flex-wrap:wrap; justify-content:center;">
+                    <span class="btn-tag primary" style="font-size:1em; padding:10px 24px;">Sign in to GitHub.com</span>
+                    <span class="btn-tag secondary" style="font-size:1em; padding:10px 24px;">Sign in to GitHub Enterprise</span>
+                </div>
+                <div class="label">点击左侧蓝色按钮，登录 GitHub.com 账号</div>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-header">
+                <span class="step-num">2</span>
+                <strong>点击 <span style="color:#64ffda;">"Sign in to GitHub.com"</span></strong>
+            </div>
+        </div>
+
+        <div class="screen">
+            <div class="screen-titlebar">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <span class="title-text">浏览器授权页面</span>
+            </div>
+            <div class="screen-body">
+                <div class="big-icon">🌐</div>
+                <div class="highlight-box">会自动弹出浏览器</div>
+                <div class="label">浏览器中点击 <strong style="color:#64ffda;">"Authorize desktop"</strong> 授权</div>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-header">
+                <span class="step-num">3</span>
+                <strong>授权成功后回到桌面端，就登录好了</strong>
+            </div>
+            <div class="step-desc">
+                <p>右上角会显示你的 GitHub 头像和用户名</p>
+            </div>
+        </div>
+
+        <div class="tip">
+            如果浏览器没自动弹出，可以手动打开浏览器再试一次。
+        </div>
+    </div>
+
+    <!-- ==================== 第二步：配置 Git ==================== -->
+    <div class="section">
+        <h2>2️⃣ 配置用户名和邮箱（只用设置一次）</h2>
+
+        <div class="step-card">
+            <div class="step-header">
+                <span class="step-num">1</span>
+                <strong>点击顶部菜单栏 <span style="color:#ff79c6;">File</span> → <span style="color:#ff79c6;">Options</span></strong>
+            </div>
+        </div>
+
+        <div class="screen">
+            <div class="screen-titlebar">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <span class="title-text">Options 设置窗口</span>
+            </div>
+            <div class="screen-body" style="padding:25px; align-items:stretch; text-align:left;">
+                <div style="display:flex; gap:15px; flex-wrap:wrap;">
+                    <div style="flex:0 0 auto; display:flex; flex-direction:column; gap:4px; border-right:1px solid rgba(255,255,255,0.1); padding-right:15px;">
+                        <span style="color:#64ffda;">⬤ Accounts</span>
+                        <span style="color:#888;">⬤ Integrations</span>
+                        <span style="color:#64ffda; font-weight:bold;">⬤ Git</span>
+                        <span style="color:#888;">⬤ Appearance</span>
+                        <span style="color:#888;">⬤ Advanced</span>
+                    </div>
+                    <div style="flex:1;">
+                        <div style="margin-bottom:12px;">
+                            <div style="color:#aaa; font-size:0.9em;">Name（用户名）</div>
+                            <div style="background:rgba(255,255,255,0.08); border-radius:4px; padding:8px 12px; color:#64ffda;">你的 GitHub 用户名</div>
+                        </div>
+                        <div>
+                            <div style="color:#aaa; font-size:0.9em;">Email（邮箱）</div>
+                            <div style="background:rgba(255,255,255,0.08); border-radius:4px; padding:8px 12px; color:#64ffda;">你的 GitHub 注册邮箱</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-header">
+                <span class="step-num">2</span>
+                <strong>填写你的 GitHub 用户名和邮箱</strong>
+            </div>
+            <div class="step-desc">
+                <p>Name：填写你的 GitHub 用户名</p>
+                <p>Email：填写注册 GitHub 时用的邮箱</p>
+                <p>点击 <strong style="color:#64ffda;">Save</strong> 保存</p>
+            </div>
+        </div>
+        <div class="tip">
+            这一步只用做一次，以后提交代码都会使用这个信息。
+        </div>
+    </div>
+
+    <!-- ==================== 第三步：创建仓库 ==================== -->
+    <div class="section">
+        <h2>3️⃣ 创建新仓库</h2>
+
+        <div class="step-card">
+            <div class="step-header">
+                <span class="step-num">1</span>
+                <strong>点击左上角 <span style="color:#ff79c6;">File</span> → <span style="color:#ff79c6;">New repository</span></strong>
+            </div>
+        </div>
+
+        <div class="screen">
+            <div class="screen-titlebar">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <span class="title-text">创建仓库窗口</span>
+            </div>
+            <div class="screen-body" style="padding:25px; align-items:stretch; text-align:left;">
+                <div style="max-width:400px; margin:0 auto;">
+                    <div style="margin-bottom:12px;">
+                        <div style="color:#aaa; font-size:0.85em;">Name（仓库名称）</div>
+                        <div style="background:rgba(100,255,218,0.1); border:2px solid #64ffda; border-radius:4px; padding:8px 12px; color:#64ffda;">my-first-repo</div>
+                    </div>
+                    <div style="margin-bottom:12px;">
+                        <div style="color:#aaa; font-size:0.85em;">Description（描述 · 可选）</div>
+                        <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:4px; padding:8px 12px; color:#888;">这是我第一次学习 Git</div>
+                    </div>
+                    <div style="margin-bottom:12px;">
+                        <div style="color:#aaa; font-size:0.85em;">Local path（本地路径）</div>
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <div style="flex:1; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:4px; padding:8px 12px; color:#bbb;">D:\我的项目\</div>
+                            <span style="background:rgba(255,255,255,0.1); padding:6px 12px; border-radius:4px; color:#aaa;">Choose...</span>
+                        </div>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:15px;">
+                        <span style="background:rgba(100,255,218,0.1); width:18px; height:18px; border-radius:3px; display:inline-block; border:2px solid #64ffda;"></span>
+                        <span style="color:#ddd;">Initialize this repository with a README</span>
+                    </div>
+                    <div style="text-align:center;">
+                        <span class="btn-tag primary" style="font-size:1em; padding:10px 30px;">Create repository</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-header">
+                <span class="step-num">2</span>
+                <strong>填写信息后点击 <span style="color:#64ffda;">Create repository</span></strong>
+            </div>
+            <div class="step-desc">
+                <p>仓库名只能用 <code>字母</code>、<code>数字</code>、<code>-</code>、<code>_</code></p>
+                <p>勾选 README 选项，会自动生成一个说明文件</p>
+            </div>
+        </div>
+
+        <div class="screen">
+            <div class="screen-titlebar">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <span class="title-text">创建成功后的界面</span>
+            </div>
+            <div class="screen-body" style="padding:25px; align-items:stretch; text-align:left;">
+                <div style="display:flex; gap:15px; flex-wrap:wrap; align-items:center;">
+                    <div style="font-size:2.5em;">📂</div>
+                    <div>
+                        <div style="color:#64ffda; font-size:1.2em; font-weight:bold;">my-first-repo</div>
+                        <div style="color:#aaa;">D:\我的项目\my-first-repo</div>
+                        <div style="margin-top:8px; display:flex; gap:8px;">
+                            <span class="btn-tag primary">Publish repository</span>
+                            <span class="btn-tag secondary" style="color:#bbb;">发布到 GitHub</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-header">
+                <span class="step-num">3</span>
+                <strong>点击 <span style="color:#64ffda;">Publish repository</span> 发布到 GitHub</strong>
+            </div>
+        </div>
+
+        <div class="screen">
+            <div class="screen-titlebar">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <span class="title-text">发布仓库窗口</span>
+            </div>
+            <div class="screen-body" style="padding:25px; align-items:stretch; text-align:left;">
+                <div style="max-width:400px; margin:0 auto;">
+                    <div style="margin-bottom:12px;">
+                        <div style="color:#aaa; font-size:0.85em;">GitHub 仓库名</div>
+                        <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:4px; padding:8px 12px; color:#bbb;">my-first-repo（自动填写）</div>
+                    </div>
+                    <div style="margin-bottom:12px;">
+                        <div style="color:#aaa; font-size:0.85em;">Description（描述 · 可选）</div>
+                        <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:4px; padding:8px 12px; color:#888;">学习 Git 的第一个项目</div>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+                        <span style="background:rgba(100,255,218,0.1); width:18px; height:18px; border-radius:50%; display:inline-block; border:2px solid #64ffda;"></span>
+                        <span style="color:#ddd;">📖 Keep this code private（私有仓库）</span>
+                    </div>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
+                        <span class="btn-tag primary" style="font-size:1em; padding:10px 24px;">Publish repository</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-header">
+                <span class="step-num">4</span>
+                <strong>点 <span style="color:#64ffda;">Publish repository</span> 确认发布</strong>
+            </div>
+            <div class="step-desc">
+                <p>发布成功后，仓库就会出现在 <code>github.com/你的用户名/仓库名</code></p>
+            </div>
+        </div>
+
+        <div class="tip">
+            <strong>私有 / 公开：</strong> 勾选 "Keep this code private" 就是私有仓库，只有你能看到。不勾选就是公开仓库，所有人都能看到。
+        </div>
+    </div>
+
+    <!-- ==================== 第四步：克隆已有仓库 ==================== -->
+    <div class="section">
+        <h2>4️⃣ 从 GitHub 克隆（下载）已有仓库</h2>
+
+        <div class="step-card">
+            <div class="step-header">
+                <span class="step-num">1</span>
+                <strong>点击左上角 <span style="color:#ff79c6;">File</span> → <span style="color:#ff79c6;">Clone repository</span></strong>
+            </div>
+        </div>
+
+        <div class="screen">
+            <div class="screen-titlebar">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <span class="title-text">克隆仓库窗口</span>
+            </div>
+            <div class="screen-body" style="padding:25px; align-items:stretch; text-align:left;">
+                <div style="display:flex; gap:15px; flex-wrap:wrap; margin-bottom:15px;">
+                    <span class="btn-tag primary" style="font-size:0.9em;">GitHub.com</span>
+                    <span class="btn-tag secondary" style="font-size:0.9em;">URL</span>
+                </div>
+                <div style="max-width:500px; margin:0 auto;">
+                    <div style="background:rgba(255,255,255,0.05); border-radius:6px; padding:12px;">
+                        <div style="color:#aaa; font-size:0.85em;">输入仓库地址或搜索</div>
+                        <div style="color:rgba(255,255,255,0.1); margin-top:8px;">──────────────────────────────</div>
+                        <div style="padding:8px 0; color:#bbb;">
+                            <span style="color:#64ffda;">📁</span> 你的用户名/repo名
+                        </div>
+                        <div style="padding:8px 0; color:#bbb;">
+                            <span style="color:#64ffda;">📁</span> 其他用户的公开仓库
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-header">
+                <span class="step-num">2</span>
+                <strong>选择要克隆的仓库</strong>
+            </div>
+            <div class="step-desc">
+                <p>如果是你自己的仓库，列表里会直接显示，点击选中即可</p>
+            </div>
+        </div>
+
+        <div class="screen">
+            <div class="screen-titlebar">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <span class="title-text">选择保存路径</span>
+            </div>
+            <div class="screen-body" style="padding:25px;">
+                <div class="big-icon">💾</div>
+                <div class="label">选择保存到电脑的哪个文件夹</div>
+                <div style="margin:10px 0; background:rgba(255,255,255,0.08); padding:10px 20px; border-radius:6px; color:#64ffda;">
+                    D:\我的项目
+                </div>
+                <span class="btn-tag primary">Clone 克隆</span>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-header">
+                <span class="step-num">3</span>
+                <strong>点击 <span style="color:#64ffda;">Clone</span> 下载到本地</strong>
+            </div>
+            <div class="step-desc">
+                <p>下载完成后会自动显示在 GitHub Desktop 中，可以开始编辑了</p>
+            </div>
+        </div>
+
+        <div class="tip">
+            <strong>从 URL 克隆别人的仓库：</strong> 点击顶部的 URL 标签，粘贴仓库地址 <code>https://github.com/用户名/仓库名.git</code>
+        </div>
+    </div>
+
+    <!-- ==================== 第五步：提交代码 ==================== -->
+    <div class="section">
+        <h2>5️⃣ 修改代码并提交（Commit）</h2>
+
+        <div class="step-card">
+            <div class="step-header">
+                <span class="step-num">1</span>
+                <strong>在仓库文件夹中添加或修改文件</strong>
+            </div>
+            <div class="step-desc">
+                <p>打开仓库文件夹（右键仓库 → <span style="color:#64ffda;">Show in File Explorer</span>）</p>
+                <p>用记事本或 VS Code 编辑文件，保存</p>
+            </div>
+        </div>
+
+        <div class="screen">
+            <div class="screen-titlebar">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <span class="title-text">主界面 — 已检测到修改</span>
+            </div>
+            <div class="screen-body" style="padding:20px; align-items:stretch; text-align:left;">
+                <div style="display:flex; gap:8px; margin-bottom:12px;">
+                    <span class="btn-tag primary" style="font-size:0.85em;">Changes</span>
+                    <span class="btn-tag secondary" style="font-size:0.85em;">History</span>
+                </div>
+                <div style="flex:1;">
+                    <div style="background:rgba(45,136,255,0.08); border-left:3px solid #2d88ff; padding:10px 15px; border-radius:0 6px 6px 0; display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+                        <span style="color:#2d88ff;">📄 M</span>
+                        <span style="color:#ddd;">README.md</span>
+                        <span style="color:#888; font-size:0.85em;">（已修改）</span>
+                    </div>
+                    <div style="background:rgba(100,255,218,0.06); border-left:3px solid #64ffda; padding:10px 15px; border-radius:0 6px 6px 0; display:flex; align-items:center; gap:10px;">
+                        <span style="color:#64ffda;">📄 +</span>
+                        <span style="color:#ddd;">index.html</span>
+                        <span style="color:#888; font-size:0.85em;">（新增）</span>
+                    </div>
+                </div>
+                <div style="margin-top:15px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+                    <div style="flex:1; min-width:180px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.15); border-radius:6px; padding:10px; color:#aaa;">
+                        📝 输入提交说明（必填）
+                    </div>
+                    <span class="btn-tag primary" style="padding:10px 24px;">Commit to main</span>
+                </div>
+                <div style="margin-top:8px; background:rgba(255,255,255,0.03); border-radius:4px; padding:8px; color:#888; font-size:0.9em;">
+                    也可以添加详细说明（可选）
+                </div>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-header">
+                <span class="step-num">2</span>
+                <strong>填写提交说明</strong>
+            </div>
+            <div class="step-desc">
+                <p>第一行：必填，简要说明改了啥（如"添加了首页"）</p>
+                <p>第二行：可选，详细描述修改内容</p>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-header">
+                <span class="step-num">3</span>
+                <strong>点击 <span style="color:#64ffda;">Commit to main</span> 完成提交</strong>
+            </div>
+            <div class="step-desc">
+                <p>提交后修改就保存到本地仓库的历史中了</p>
+            </div>
+        </div>
+
+        <div class="tip">
+            提交说明要写清楚，方便以后回顾。好的例子：<code>修复了登录页面的按钮样式</code> vs 不好的例子：<code>修改</code>
+        </div>
+    </div>
+
+    <!-- ==================== 第六步：推送 ==================== -->
+    <div class="section">
+        <h2>6️⃣ 推送到 GitHub（Push）</h2>
+
+        <div class="step-card">
+            <div class="step-header">
+                <span class="step-num">1</span>
+                <strong>提交完成后，顶部会出现推送按钮</strong>
+            </div>
+        </div>
+
+        <div class="screen">
+            <div class="screen-titlebar">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <span class="title-text">等待推送</span>
+            </div>
+            <div class="screen-body" style="padding:25px;">
+                <div style="font-size:1.1em; color:#64ffda; margin-bottom:8px;">已提交 1 个更改</div>
+                <div style="color:#aaa; margin-bottom:15px;">尚未推送到 GitHub</div>
+                <span class="btn-tag primary" style="font-size:1.1em; padding:12px 30px;">
+                    🔼 Push origin
+                </span>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-header">
+                <span class="step-num">2</span>
+                <strong>点击 <span style="color:#64ffda;">Push origin</span> 上传到 GitHub</strong>
+            </div>
+            <div class="step-desc">
+                <p>推送完成后，刷新 GitHub 网页就能看到更新</p>
+            </div>
+        </div>
+
+        <div class="tip">
+            <strong>什么时候推送？</strong> 每次 commit 后都可以 push 一次。<br>
+            也可以连续 commit 多次，最后一起 push。
+        </div>
+    </div>
+
+    <!-- ==================== 第七步：拉取更新 ==================== -->
+    <div class="section">
+        <h2>7️⃣ 从 GitHub 拉取更新（Pull）</h2>
+
+        <div class="step-card">
+            <div class="step-header">
+                <span class="step-num">1</span>
+                <strong>点击顶部的 <span style="color:#64ffda;">Fetch origin</span></strong>
+            </div>
+        </div>
+
+        <div class="screen">
+            <div class="screen-titlebar">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <span class="title-text">拉取更新</span>
+            </div>
+            <div class="screen-body" style="padding:25px;">
+                <div class="big-icon">⬇️</div>
+                <div style="color:#64ffda; margin:8px 0;">Fetch origin</div>
+                <div class="label">如果有新内容，按钮会变成 Pull origin</div>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-header">
+                <span class="step-num">2</span>
+                <strong>如果有更新，按钮变成 <span style="color:#64ffda;">Pull origin</span>，点击下载</strong>
+            </div>
+            <div class="step-desc">
+                <p>多人协作时，每次开始工作前先 Pull 一下，保持代码最新</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== 第八步：管理仓库 ==================== -->
+    <div class="section">
+        <h2>8️⃣ 其他常用操作</h2>
+
+        <h3>🔹 查看提交历史</h3>
+        <div class="screen">
+            <div class="screen-titlebar">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <span class="title-text">History 视图</span>
+            </div>
+            <div class="screen-body" style="padding:20px; align-items:stretch; text-align:left;">
+                <div style="display:flex; gap:8px; margin-bottom:12px;">
+                    <span class="btn-tag secondary" style="font-size:0.85em;">Changes</span>
+                    <span class="btn-tag primary" style="font-size:0.85em;">History</span>
+                </div>
+                <div style="background:rgba(255,255,255,0.03); padding:12px; border-radius:6px;">
+                    <div style="display:flex; gap:12px; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.05);">
+                        <span style="color:#888; font-size:0.85em; min-width:140px;">2026/6/18 14:30</span>
+                        <span style="color:#64ffda;">⬤</span>
+                        <span style="color:#ddd;">添加了首页文件</span>
+                        <span style="color:#888; font-size:0.85em;">→ main</span>
+                    </div>
+                    <div style="display:flex; gap:12px; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.05);">
+                        <span style="color:#888; font-size:0.85em; min-width:140px;">2026/6/18 12:00</span>
+                        <span style="color:#64ffda;">⬤</span>
+                        <span style="color:#ddd;">第一次提交</span>
+                        <span style="color:#888; font-size:0.85em;">→ main</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tip">
+            点击 History 标签可以查看所有提交记录，右键可以查看文件变更内容。
+        </div>
+
+        <h3>🔹 打开文件夹 / 终端 / VS Code</h3>
+        <div class="step-card">
+            <div class="step-header">
+                <span class="step-num">1</span>
+                <strong>右键点击仓库名称</strong>
+            </div>
+            <div class="step-desc">
+                <p>选择：</p>
+                <p><strong>Show in File Explorer</strong> — 打开仓库文件夹</p>
+                <p><strong>Open in Command Prompt</strong> — 打开命令行</p>
+                <p><strong>Open in Visual Studio Code</strong> — 用 VS Code 打开</p>
+            </div>
+        </div>
+
+        <h3>🔹 查看 GitHub 网页</h3>
+        <div class="step-card">
+            <div class="step-header">
+                <span class="step-num">1</span>
+                <strong>点击顶部菜单 <span style="color:#ff79c6;">Repository</span> → <span style="color:#ff79c6;">View on GitHub</span></strong>
+            </div>
+            <div class="step-desc">
+                <p>或者右键仓库 → View on GitHub</p>
+                <p>会自动在浏览器中打开仓库对应的网页</p>
+            </div>
+        </div>
+
+        <h3>🔹 设置</h3>
+        <div class="step-card">
+            <div class="step-header">
+                <span class="step-num">1</span>
+                <strong>点击 <span style="color:#ff79c6;">File</span> → <span style="color:#ff79c6;">Options</span></strong>
+            </div>
+            <div class="step-desc">
+                <table>
+                    <tr><th>设置项</th><th>说明</th></tr>
+                    <tr><td>Appearance</td><td>切换主题（深色/浅色）</td></tr>
+                    <tr><td>Git</td><td>修改用户名和邮箱</td></tr>
+                    <tr><td>Advanced</td><td>高级设置（一般不用动）</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== 常见问题 ==================== -->
+    <div class="section">
+        <h2>❓ 常见问题</h2>
+
+        <div class="step-card">
+            <div class="step-header">
+                <span class="step-num">Q</span>
+                <strong>推送时提示没有权限怎么办？</strong>
+            </div>
+            <div class="step-desc">
+                <p>可能登录的账号不是仓库所有者。退出重新登录正确的账号：</p>
+                <p><span style="color:#ff79c6;">File</span> → <span style="color:#ff79c6;">Options</span> → <span style="color:#ff79c6;">Accounts</span> → Sign out → 重新登录</p>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-header">
+                <span class="step-num">Q</span>
+                <strong>提交错了想撤回怎么办？</strong>
+            </div>
+            <div class="step-desc">
+                <p>在 History 中右键上次提交 → <span style="color:#ff79c6;">Undo commit</span>（撤销提交）</p>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-header">
+                <span class="step-num">Q</span>
+                <strong>如何删除本地仓库？</strong>
+            </div>
+            <div class="step-desc">
+                <p>右键仓库 → <span style="color:#ff79c6;">Remove</span>（只是从 GitHub Desktop 中移除，不会删除硬盘文件）</p>
+                <p>彻底删除：在文件资源管理器中手动删除文件夹</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== 快捷键 ==================== -->
+    <div class="section">
+        <h2>⌨️ 常用快捷键</h2>
+        <table>
+            <tr><th>快捷键</th><th>功能</th></tr>
+            <tr><td><code>Ctrl + N</code></td><td>新建仓库</td></tr>
+            <tr><td><code>Ctrl + Shift + O</code></td><td>克隆仓库</td></tr>
+            <tr><td><code>Ctrl + T</code></td><td>添加本地仓库</td></tr>
+            <tr><td><code>Ctrl + P</code></td><td>推送代码</td></tr>
+            <tr><td><code>Ctrl + Shift + P</code></td><td>拉取更新</td></tr>
+            <tr><td><code>Ctrl + Enter</code></td><td>提交代码（Commit）</td></tr>
+            <tr><td><code>Ctrl + R</code></td><td>刷新</td></tr>
+            <tr><td><code>Ctrl + ,</code></td><td>打开设置</td></tr>
+        </table>
+    </div>
+
+    <!-- ==================== 结语 ==================== -->
+    <div class="section" style="text-align:center;">
+        <h2>🎉 恭喜学完！</h2>
+        <p style="font-size:1.2em; margin:30px 0;">
+            现在你可以用 GitHub Desktop 轻松管理代码了！
+        </p>
+        <div class="tip" style="text-align:left;">
+            <strong>日常使用流程总结：</strong><br>
+            1️⃣ 打开 GitHub Desktop → 选仓库<br>
+            2️⃣ <strong>Fetch origin</strong> 拉取最新代码<br>
+            3️⃣ 在文件夹中修改文件<br>
+            4️⃣ 回到 GitHub Desktop 查看变动<br>
+            5️⃣ 填写说明 → <strong>Commit</strong> 提交<br>
+            6️⃣ <strong>Push</strong> 推送到 GitHub
+        </div>
+    </div>
+
+    <!-- ==================== 页脚 ==================== -->
+    <div class="footer">
+        <p>GitHub Desktop 完整教程 · Windows 版</p>
+        <p style="margin-top:8px;">打开方式：直接在文件资源管理器中双击此文件用浏览器打开</p>
+    </div>
+
+</div>
+</body>
+</html>
