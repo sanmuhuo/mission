@@ -1,0 +1,6 @@
+{
+    "api_key": "sk-17046d5217064f859f87897c92ca3ae9",
+    "check_interval_minutes": 5,
+    "alert_threshold": 10.0,
+    "currency": "CNY"
+}

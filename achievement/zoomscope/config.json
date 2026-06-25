@@ -1,0 +1,21 @@
+{
+  "capture_size": 530,
+  "zoom_level": 6.6,
+  "interpolation": 1,
+  "show_crosshair": true,
+  "crosshair_color": [
+    255,
+    0,
+    0
+  ],
+  "crosshair_thickness": 1,
+  "show_info": true,
+  "target_monitor": 1,
+  "fps_limit": 0,
+  "global_hotkeys": true,
+  "window_borderless": false,
+  "window_x": -1676,
+  "window_y": 473,
+  "window_width": 990,
+  "window_height": 998
+}
